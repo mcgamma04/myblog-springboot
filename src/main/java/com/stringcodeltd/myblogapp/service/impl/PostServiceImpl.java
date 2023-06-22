@@ -7,6 +7,7 @@ import com.stringcodeltd.myblogapp.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -24,6 +25,8 @@ public class PostServiceImpl implements PostService {
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
 
+//        Post post =  mapToEntity(postDto);
+
         Post newPost =  postRepository.save(post);
 
         //convert entity to dto
@@ -39,7 +42,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDTO> getAllPost() {
-        return null;
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+
+
     }
 
     //convert entity to PostDTO
@@ -50,5 +56,13 @@ public class PostServiceImpl implements PostService {
         postDTO.setContent(post.getContent());
         postDTO.setDescription(post.getDescription());
         return postDTO;
+    }
+    //convert DTO to entity
+    private Post mapToEntity(PostDTO postDto){
+        Post post  = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+        post.setContent(postDto.getContent());
+        return post;
     }
 }
