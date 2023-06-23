@@ -2,6 +2,7 @@ package com.stringcodeltd.myblogapp.controller;
 
 import com.stringcodeltd.myblogapp.dto.PostDTO;
 import com.stringcodeltd.myblogapp.service.PostService;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,9 @@ public class PostController {
         PostDTO postFeedBack = postService.updatePost(postDTO, id);
         return new ResponseEntity<>(postFeedBack,HttpStatus.OK);
     }
+@DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") long id){
+        return ResponseEntity.ok(postService.deletePost(id));
+}
 
 }
