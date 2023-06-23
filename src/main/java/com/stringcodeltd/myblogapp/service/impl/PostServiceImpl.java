@@ -1,12 +1,14 @@
 package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.PostDTO;
+import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
 import com.stringcodeltd.myblogapp.model.Post;
 import com.stringcodeltd.myblogapp.repository.PostRepository;
 import com.stringcodeltd.myblogapp.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +46,12 @@ public class PostServiceImpl implements PostService {
     public List<PostDTO> getAllPost() {
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+    }
 
-
+    @Override
+    public PostDTO getPostById(Long id) {
+       Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id));
+       return mapToDTO(post);
     }
 
     //convert entity to PostDTO
