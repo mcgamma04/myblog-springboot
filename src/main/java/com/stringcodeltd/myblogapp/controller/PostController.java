@@ -1,6 +1,7 @@
 package com.stringcodeltd.myblogapp.controller;
 
 import com.stringcodeltd.myblogapp.dto.PostDTO;
+import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.service.PostService;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class PostController {
     }
 
     @GetMapping
-    public List<PostDTO> getAllPosts(@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
-                                     @RequestParam(value = "pageSize",defaultValue = "2", required = false) int pageSize){
+    public PostResponse getAllPosts(@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+                                    @RequestParam(value = "pageSize",defaultValue = "10", required = false) int pageSize){
          return postService.getAllPost(pageNo,pageSize);
     }
 

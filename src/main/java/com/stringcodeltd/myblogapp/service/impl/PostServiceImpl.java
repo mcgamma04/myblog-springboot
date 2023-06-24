@@ -1,6 +1,7 @@
 package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.PostDTO;
+import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
 import com.stringcodeltd.myblogapp.model.Post;
 import com.stringcodeltd.myblogapp.repository.PostRepository;
@@ -46,14 +47,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost(int pageNo, int pageSize) {
+    public PostResponse getAllPost(int pageNo, int pageSize) {
         //paginarion
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
         Page<Post> posts = postRepository.findAll(pageable);
         //get content
         List<Post> postList = posts.getContent();
-        return postList.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+        List<PostDTO> content = postList.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+
+        PostResponse postResponse =  new PostResponse();
+        postResponse.setContent(content);
+        postResponse.setPageNo(posts.getNumber());
+        postResponse.setPageSize(posts.getSize());
+        postResponse.setTotalElements(posts.getTotalElements());
+        postResponse.setTotalPages(posts.getTotalPages());
+        postResponse.setLast(posts.isLast());
+        return postResponse;
+
     }
 
     @Override
