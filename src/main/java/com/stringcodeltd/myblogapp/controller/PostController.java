@@ -23,7 +23,8 @@ public class PostController {
     }
 
     @GetMapping
-    public List<PostDTO> getAll(){
+    public List<PostDTO> getAllPosts(@RequestParam(value = "PageNo", defaultValue = "0", required = false) int pageNo,
+                                     @RequestParam(value = "pageSize",defaultValue = "10", required = false) int pageSize){
          return postService.getAllPost();
     }
 
@@ -42,5 +43,7 @@ public class PostController {
     postService.deletePost(id);
         return new ResponseEntity<>("Post deleted successfully",HttpStatus.OK);
 }
+
+
 
 }
