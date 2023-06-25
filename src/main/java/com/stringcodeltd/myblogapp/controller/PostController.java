@@ -3,6 +3,7 @@ package com.stringcodeltd.myblogapp.controller;
 import com.stringcodeltd.myblogapp.dto.PostDTO;
 import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.service.PostService;
+import com.stringcodeltd.myblogapp.util.AppConstant;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,10 @@ public class PostController {
     }
 
     @GetMapping
-    public PostResponse getAllPosts(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                    @RequestParam(value = "pageSize",defaultValue = "10", required = false) int pageSize,
-                                    @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-                                    @RequestParam(value = "sortDir",defaultValue = "asc", required = false) String sortDir){
+    public PostResponse getAllPosts(@RequestParam(value = "pageNo", defaultValue = AppConstant.DEFAULT_PAGE_NO, required = false) int pageNo,
+                                    @RequestParam(value = "pageSize",defaultValue = AppConstant.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                    @RequestParam(value = "sortBy", defaultValue = AppConstant.DEFAULT_SORT_BY, required = false) String sortBy,
+                                    @RequestParam(value = "sortDir",defaultValue = AppConstant.DEFAULT_SORT_DIRECTION, required = false) String sortDir){
          return postService.getAllPost(pageNo,pageSize,sortBy,sortDir);
     }
 
