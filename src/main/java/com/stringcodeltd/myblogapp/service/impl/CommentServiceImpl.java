@@ -42,6 +42,17 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    @Override
+    public CommentDTO getCommentById(long commentId,long postId) {
+//        get comment id
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->new ResourceNotFoundException("commentId","comment",commentId));
+//get POST id
+        Post post = postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post","post",postId));
+
+
+        return mapToDTO(comment);
+    }
+
     //map entity to dto
 
     private  CommentDTO mapToDTO(Comment comment){

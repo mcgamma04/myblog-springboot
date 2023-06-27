@@ -8,6 +8,8 @@ public interface CommentService {
     CommentDTO createComment(long postId, CommentDTO commentDTO);
     List<CommentDTO> getCommentByPostId(long postId);
 
+    CommentDTO getCommentById(long commentId,long postId);
+
 
 
 }
