@@ -1,12 +1,14 @@
 package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.CommentDTO;
+import com.stringcodeltd.myblogapp.exception.BlogApiException;
 import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
 import com.stringcodeltd.myblogapp.model.Comment;
 import com.stringcodeltd.myblogapp.model.Post;
 import com.stringcodeltd.myblogapp.repository.CommentRepository;
 import com.stringcodeltd.myblogapp.repository.PostRepository;
 import com.stringcodeltd.myblogapp.service.CommentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +51,9 @@ public class CommentServiceImpl implements CommentService {
 //get POST id
         Post post = postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post","post",postId));
 
-
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST,"comment doest not belong to post");
+        }
         return mapToDTO(comment);
     }
 
