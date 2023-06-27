@@ -9,6 +9,9 @@ import com.stringcodeltd.myblogapp.repository.PostRepository;
 import com.stringcodeltd.myblogapp.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -30,6 +33,13 @@ public class CommentServiceImpl implements CommentService {
         Comment commentResponse = commentRepository.save(comment);
 
         return mapToDTO(commentResponse);
+    }
+
+    @Override
+    public List<CommentDTO> getCommentByPostId(long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList());
+
     }
 
     //map entity to dto
