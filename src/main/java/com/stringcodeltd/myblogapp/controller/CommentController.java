@@ -36,4 +36,14 @@ public class CommentController {
     public ResponseEntity<CommentDTO>  getCommentById(@PathVariable(value = "postid") long postid, @PathVariable(value = "commentid") long commentid){
      return new ResponseEntity<>(commentService.getCommentById(commentid,postid),HttpStatus.OK);
     }
+
+    @PutMapping("/posts/{postid}/comments/{commentid}")
+
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable(value = "postid")long postid,
+                                                    @PathVariable(value = "commentid")long commentid,
+                                                    @RequestBody CommentDTO commentDTO){
+        CommentDTO updatedComment = commentService.updateComment(postid, commentid, commentDTO);
+        return new ResponseEntity<>(updatedComment,HttpStatus.OK);
+
+    }
 }
