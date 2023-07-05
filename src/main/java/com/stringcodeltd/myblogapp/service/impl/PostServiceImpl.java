@@ -6,6 +6,7 @@ import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
 import com.stringcodeltd.myblogapp.model.Post;
 import com.stringcodeltd.myblogapp.repository.PostRepository;
 import com.stringcodeltd.myblogapp.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
+    private ModelMapper mapper;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository,ModelMapper mapper) {
+
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -96,19 +100,20 @@ public class PostServiceImpl implements PostService {
 
     //convert entity to PostDTO
     private PostDTO mapToDTO(Post post){
-        PostDTO postDTO = new PostDTO();
-        postDTO.setId(post.getId());
-        postDTO.setTitle(post.getTitle());
-        postDTO.setContent(post.getContent());
-        postDTO.setDescription(post.getDescription());
-        return postDTO;
+
+        // PostDTO postDTO = new PostDTO();
+//        postDTO.setId(post.getId());
+//        postDTO.setTitle(post.getTitle());
+//        postDTO.setContent(post.getContent());
+//        postDTO.setDescription(post.getDescription());
+        return mapper.map(post, PostDTO.class);
     }
     //convert DTO to entity
     private Post mapToEntity(PostDTO postDto){
-        Post post  = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-        return post;
+        //        Post post  = new Post();
+//        post.setTitle(postDto.getTitle());
+//        post.setDescription(postDto.getDescription());
+//        post.setContent(postDto.getContent());
+        return mapper.map(postDto,Post.class);
     }
 }
