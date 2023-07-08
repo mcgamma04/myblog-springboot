@@ -4,6 +4,7 @@ import com.stringcodeltd.myblogapp.dto.PostDTO;
 import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.service.PostService;
 import com.stringcodeltd.myblogapp.util.AppConstant;
+import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PostController {
         this.postService = postService;
     }
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO) {
      return  new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDTO> updatePost(@PathVariable("id")long id, @RequestBody PostDTO postDTO){
+    public ResponseEntity<PostDTO> updatePost(@PathVariable("id")long id, @Valid @RequestBody PostDTO postDTO){
         PostDTO postFeedBack = postService.updatePost(postDTO, id);
         return new ResponseEntity<>(postFeedBack,HttpStatus.OK);
     }
