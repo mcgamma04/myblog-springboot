@@ -1,6 +1,7 @@
 package com.stringcodeltd.myblogapp.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
@@ -12,8 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+@Configuration
 public class SecurityConfig {
-
+    @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -24,23 +29,21 @@ public class SecurityConfig {
     return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetails(){
-//        UserDetails bloguser     = User.builder()
-//                .username("mcgamma04")
-//                .password(passwordEncoder().encode("mike"))
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder().encode("admin"))
-//                .roles("ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(bloguser,admin);
-//    }
+    @Bean
+    public UserDetailsService userDetails(){
+        UserDetails bloguser     = User.builder()
+                .username("mcgamma04")
+                .password(passwordEncoder().encode("mike"))
+                .roles("USER")
+                .build();
 
-    public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(passwordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(bloguser,admin);
     }
+
+
 }
