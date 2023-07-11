@@ -5,5 +5,5 @@ import com.stringcodeltd.myblogapp.dto.CommentDTO;
 
 public interface CategoryService {
     CategoryDTO createCategory(CategoryDTO categoryDTO);
-    CategoryDTO getCategory(long categoryId);
+    CategoryDTO getCategoryById(long categoryId);
 }
