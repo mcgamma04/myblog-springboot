@@ -4,5 +4,6 @@ import com.stringcodeltd.myblogapp.dto.CategoryDTO;
 import com.stringcodeltd.myblogapp.dto.CommentDTO;
 
 public interface CategoryService {
-    CategoryDTO createComment(CategoryDTO categoryDTO);
+    CategoryDTO createCategory(CategoryDTO categoryDTO);
+    CategoryDTO getCategory(long categoryId);
 }
