@@ -8,8 +8,6 @@ import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO) {
      return  new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
