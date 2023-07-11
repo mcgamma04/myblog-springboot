@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/category")
 public class CategoryController {
@@ -24,6 +26,12 @@ private CategoryService categoryService;
     public ResponseEntity<CategoryDTO>getCategoryById(@PathVariable(value = "id")long categoryid){
         CategoryDTO categoryById = categoryService.getCategoryById(categoryid);
         return new ResponseEntity<>(categoryById,HttpStatus.OK);
+
+    }
+    @GetMapping
+    public ResponseEntity<List<CategoryDTO>> getCategory(){
+        List<CategoryDTO> category = categoryService.getCategory();
+        return new ResponseEntity<>(category,HttpStatus.OK);
 
     }
 }
