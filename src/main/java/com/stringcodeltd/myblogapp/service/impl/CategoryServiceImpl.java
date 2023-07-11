@@ -45,6 +45,13 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream().map(category -> mapper.map(category,CategoryDTO.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteCategory(long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+        categoryRepository.delete(category);
+
+    }
 //    //convert entuty to DTO
 //    private CategoryDTO mapToDTO(Category category){
 //        return mapper.map(category,CategoryDTO.class);

@@ -34,4 +34,9 @@ private CategoryService categoryService;
         return new ResponseEntity<>(category,HttpStatus.OK);
 
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletecategory(@PathVariable(value = "id") long categoryId){
+        categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>("Category deleted successfully",HttpStatus.OK);
+    }
 }
