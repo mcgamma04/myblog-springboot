@@ -2,6 +2,7 @@ package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.CategoryDTO;
 import com.stringcodeltd.myblogapp.dto.CommentDTO;
+import com.stringcodeltd.myblogapp.exception.CategoryAleadyExistException;
 import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
 import com.stringcodeltd.myblogapp.model.Category;
 import com.stringcodeltd.myblogapp.model.Comment;
@@ -28,6 +29,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
      //find if the category exists
+
+        if(categoryRepository.existsByName(categoryDTO.getName()) ){
+            throw new CategoryAleadyExistException("category","name", categoryDTO.getName());
+        }
+
         Category category = mapper.map(categoryDTO, Category.class);
         Category categorResponse = categoryRepository.save(category);
 
