@@ -39,6 +39,12 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(CategoryAleadyExistException.class)
+    public ResponseEntity<ErrorDetails> CategoryAleadyExistException(CategoryAleadyExistException exception, WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(),exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
     @Override
     protected  ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
