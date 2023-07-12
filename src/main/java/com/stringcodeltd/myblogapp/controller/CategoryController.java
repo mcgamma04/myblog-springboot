@@ -39,4 +39,11 @@ private CategoryService categoryService;
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>("Category deleted successfully",HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable(value = "id") long categoryId, @RequestBody CategoryDTO categoryDTO){
+        CategoryDTO updatedCategory = categoryService.updateCategory(categoryId, categoryDTO);
+        return  new ResponseEntity<>(updatedCategory,HttpStatus.OK);
+
+    }
 }

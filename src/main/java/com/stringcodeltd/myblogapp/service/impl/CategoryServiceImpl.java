@@ -58,6 +58,16 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
 
     }
+
+    @Override
+    public CategoryDTO updateCategory(long categoryId, CategoryDTO categoryDTO) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+        category.setName(categoryDTO.getName());
+        category.setDescription(categoryDTO.getDescription());
+        Category updateCategory = categoryRepository.save(category);
+
+        return mapper.map(updateCategory,CategoryDTO.class);
+    }
 //    //convert entuty to DTO
 //    private CategoryDTO mapToDTO(Category category){
 //        return mapper.map(category,CategoryDTO.class);
