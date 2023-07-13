@@ -51,6 +51,12 @@ public class PostController {
         return new ResponseEntity<>("Post deleted successfully",HttpStatus.OK);
 }
 
+@GetMapping("/category/{id}")
+public ResponseEntity<List<PostDTO>> getPostByCategory(@PathVariable(name = "id") long categoryId){
+    List<PostDTO> postByCategory = postService.getPostByCategory(categoryId);
+    return new ResponseEntity<>(postByCategory,HttpStatus.OK);
+
+}
 
 
 }
