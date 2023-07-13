@@ -3,7 +3,9 @@ package com.stringcodeltd.myblogapp.service.impl;
 import com.stringcodeltd.myblogapp.dto.PostDTO;
 import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.exception.ResourceNotFoundException;
+import com.stringcodeltd.myblogapp.model.Category;
 import com.stringcodeltd.myblogapp.model.Post;
+import com.stringcodeltd.myblogapp.repository.CategoryRepository;
 import com.stringcodeltd.myblogapp.repository.PostRepository;
 import com.stringcodeltd.myblogapp.service.PostService;
 import org.modelmapper.ModelMapper;
@@ -20,12 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
+    private CategoryRepository categoryRepository;
     private ModelMapper mapper;
 
-    public PostServiceImpl(PostRepository postRepository,ModelMapper mapper) {
+    public PostServiceImpl(PostRepository postRepository,ModelMapper mapper,CategoryRepository categoryRepository) {
 
         this.postRepository = postRepository;
         this.mapper = mapper;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -36,8 +40,10 @@ public class PostServiceImpl implements PostService {
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
 
-//        Post post =  mapToEntity(postDto);
+        Category category = categoryRepository.findById(postDto.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("category", "id", postDto.getCategoryId()));
 
+//        Post post =  mapToEntity(postDto);
+       post.setCategory(category);
         Post newPost =  postRepository.save(post);
 
         //convert entity to dto
@@ -48,6 +54,7 @@ public class PostServiceImpl implements PostService {
         postResponse.setTitle(newPost.getTitle());
         postResponse.setContent(newPost.getContent());
         postResponse.setDescription(newPost.getDescription());
+        postResponse.setCategoryId(newPost.getCategory().getId());
         return postResponse;
     }
 
