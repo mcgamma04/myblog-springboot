@@ -107,6 +107,16 @@ public class PostServiceImpl implements PostService {
 
     }
 
+    @Override
+    public List<PostDTO> getPostByCategory(long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", categoryId));
+        //get post
+        List<Post> posts = postRepository.findByCategoryId(categoryId);
+
+return posts.stream().map((post)->mapper.map(post,PostDTO.class)).collect(Collectors.toList());
+
+    }
+
     //convert entity to PostDTO
     private PostDTO mapToDTO(Post post){
 
