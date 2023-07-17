@@ -23,7 +23,6 @@ public class User {
     private String username;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
     private String password;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
