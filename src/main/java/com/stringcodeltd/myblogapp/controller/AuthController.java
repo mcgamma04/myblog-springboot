@@ -1,6 +1,7 @@
 package com.stringcodeltd.myblogapp.controller;
 
 import com.stringcodeltd.myblogapp.dto.LoginDTO;
+import com.stringcodeltd.myblogapp.dto.RegisterDTO;
 import com.stringcodeltd.myblogapp.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,13 @@ public class AuthController {
     public ResponseEntity<String> loginUser(@RequestBody LoginDTO loginDTO){
         String login = authService.login(loginDTO);
         return ResponseEntity.ok(login);
+    }
+
+    @PostMapping(value = {"/register","/signup"})
+    public ResponseEntity<String> registerUser(@RequestBody RegisterDTO registerDTO){
+        String register = authService.register(registerDTO);
+
+        return new ResponseEntity<>(register,HttpStatus.CREATED );
 
     }
 }
