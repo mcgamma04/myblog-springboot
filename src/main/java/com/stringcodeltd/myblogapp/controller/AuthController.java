@@ -1,5 +1,6 @@
 package com.stringcodeltd.myblogapp.controller;
 
+import com.stringcodeltd.myblogapp.dto.JwtResponseDTO;
 import com.stringcodeltd.myblogapp.dto.LoginDTO;
 import com.stringcodeltd.myblogapp.dto.RegisterDTO;
 import com.stringcodeltd.myblogapp.service.AuthService;
@@ -20,9 +21,13 @@ public class AuthController {
     }
 
     @PostMapping(value = {"/login","/signin"})
-    public ResponseEntity<String> loginUser(@RequestBody LoginDTO loginDTO){
-        String login = authService.login(loginDTO);
-        return ResponseEntity.ok(login);
+    public ResponseEntity<JwtResponseDTO> loginUser(@RequestBody LoginDTO loginDTO){
+        String token = authService.login(loginDTO);
+        JwtResponseDTO jwtResponseDTO = new JwtResponseDTO();
+        jwtResponseDTO.setAccessToken(token);
+
+
+        return ResponseEntity.ok(jwtResponseDTO);
     }
 
     @PostMapping(value = {"/register","/signup"})
