@@ -7,6 +7,7 @@ import com.stringcodeltd.myblogapp.model.Role;
 import com.stringcodeltd.myblogapp.model.User;
 import com.stringcodeltd.myblogapp.repository.RoleRepository;
 import com.stringcodeltd.myblogapp.repository.UserRepository;
+import com.stringcodeltd.myblogapp.security.JwtTokenProvider;
 import com.stringcodeltd.myblogapp.service.AuthService;
 import com.stringcodeltd.myblogapp.util.PasswordGeneration;
 import org.springframework.http.HttpStatus;
@@ -27,24 +28,27 @@ public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     private RoleRepository roleRepository;
     private UserRepository userRepository;
+    private JwtTokenProvider jwtTokenProvider;
 //    private PasswordGeneration passwordGeneration;
 
     public AuthServiceImpl(AuthenticationManager authenticationManager, RoleRepository roleRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.jwtTokenProvider=jwtTokenProvider;
 
     }
 
     @Override
     public String login(LoginDTO loginDTO) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                 loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return "You have login successfully";
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
