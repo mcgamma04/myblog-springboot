@@ -2,6 +2,7 @@ package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.LoginDTO;
 import com.stringcodeltd.myblogapp.dto.RegisterDTO;
+import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
 import com.stringcodeltd.myblogapp.exception.BlogApiException;
 import com.stringcodeltd.myblogapp.model.Role;
 import com.stringcodeltd.myblogapp.model.User;
@@ -79,6 +80,26 @@ public class AuthServiceImpl implements AuthService {
 
         return "You have been registered successfully,kindly login to continue";
     }
+
+    @Override
+    public String updateUserName(UpdateProfileDTO updateProfileDTO) {
+        //gewt loggin user
+
+        User loggedUser = getLoggedUser();
+        loggedUser.setName(updateProfileDTO.getName());
+        userRepository.save(loggedUser);
+
+        return "User details updated successully";
+    }
+
+    private User getLoggedUser(){
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsernameOrEmail(name, name)
+                .orElseThrow(()-> new RuntimeException("User not authorised"));
+
+
+    }
+
     private static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }

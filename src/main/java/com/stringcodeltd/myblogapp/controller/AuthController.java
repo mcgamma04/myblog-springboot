@@ -3,13 +3,12 @@ package com.stringcodeltd.myblogapp.controller;
 import com.stringcodeltd.myblogapp.dto.JwtResponseDTO;
 import com.stringcodeltd.myblogapp.dto.LoginDTO;
 import com.stringcodeltd.myblogapp.dto.RegisterDTO;
+import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
 import com.stringcodeltd.myblogapp.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -35,6 +34,14 @@ public class AuthController {
         String register = authService.register(registerDTO);
 
         return new ResponseEntity<>(register,HttpStatus.CREATED );
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUser(@RequestBody UpdateProfileDTO updateProfileDTO){
+        String response = authService.updateUserName(updateProfileDTO);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
     }
+
 }
