@@ -1,9 +1,6 @@
 package com.stringcodeltd.myblogapp.controller;
 
-import com.stringcodeltd.myblogapp.dto.JwtResponseDTO;
-import com.stringcodeltd.myblogapp.dto.LoginDTO;
-import com.stringcodeltd.myblogapp.dto.RegisterDTO;
-import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
+import com.stringcodeltd.myblogapp.dto.*;
 import com.stringcodeltd.myblogapp.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +39,13 @@ public class AuthController {
         String response = authService.updateUserName(updateProfileDTO);
         return new ResponseEntity<>(response,HttpStatus.OK);
 
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/security")
+    public ResponseEntity<String> passwordSetting(@RequestBody PasswordSettingDTO passwordSettingDTO){
+        String response = authService.passwordSetting(passwordSettingDTO);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 }
