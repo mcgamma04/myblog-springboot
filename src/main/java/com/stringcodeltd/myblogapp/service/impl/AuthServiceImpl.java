@@ -1,6 +1,7 @@
 package com.stringcodeltd.myblogapp.service.impl;
 
 import com.stringcodeltd.myblogapp.dto.LoginDTO;
+import com.stringcodeltd.myblogapp.dto.PasswordSettingDTO;
 import com.stringcodeltd.myblogapp.dto.RegisterDTO;
 import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
 import com.stringcodeltd.myblogapp.exception.BlogApiException;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -92,10 +94,27 @@ public class AuthServiceImpl implements AuthService {
         return "User details updated successully";
     }
 
+    @Override
+    public String passwordSetting(PasswordSettingDTO passwordSettingDTO) {
+        User loggedUser = getLoggedUser();
+
+        boolean matchPasswordWithOldPassword = passwordEncoder().matches(passwordSettingDTO.getOldpassword(), loggedUser.getPassword());
+
+        if(!matchPasswordWithOldPassword){
+            throw new RuntimeException("The password is incorrect. Please try again.");
+        }
+        if(passwordSettingDTO.getNewpassword().length() < 4){
+            throw new RuntimeException("Password length must be greater than 3 characters");
+        }
+
+
+        return null;
+    }
+
     private User getLoggedUser(){
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsernameOrEmail(name, name)
-                .orElseThrow(()-> new RuntimeException("User not authorised"));
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
 
 
     }
