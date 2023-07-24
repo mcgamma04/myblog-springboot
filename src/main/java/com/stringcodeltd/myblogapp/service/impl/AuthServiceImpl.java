@@ -107,8 +107,14 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Password length must be greater than 3 characters");
         }
 
+        if(!passwordSettingDTO.getNewpassword().equals(passwordSettingDTO.getConfirmpassord())){
+            throw new RuntimeException("Password and confirm password are not the same");
+        }
 
-        return null;
+        loggedUser.setPassword(passwordSettingDTO.getNewpassword());
+        userRepository.save(loggedUser);
+
+        return "Password changed successfully";
     }
 
     private User getLoggedUser(){
