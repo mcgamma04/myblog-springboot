@@ -9,4 +9,6 @@ public interface AuthService {
     String register(RegisterDTO registerDTO);
 
     String updateUserName(UpdateProfileDTO updateProfileDTO);
+
+
 }
