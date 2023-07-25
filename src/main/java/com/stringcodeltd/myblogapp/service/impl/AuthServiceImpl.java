@@ -111,7 +111,8 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Password and confirm password are not the same");
         }
 
-        loggedUser.setPassword(passwordSettingDTO.getNewpassword());
+
+        loggedUser.setPassword(passwordEncoder().encode(passwordSettingDTO.getNewpassword()));
         userRepository.save(loggedUser);
 
         return "Password changed successfully";
