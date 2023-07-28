@@ -4,6 +4,10 @@ import com.stringcodeltd.myblogapp.dto.PostDTO;
 import com.stringcodeltd.myblogapp.dto.PostResponse;
 import com.stringcodeltd.myblogapp.service.PostService;
 import com.stringcodeltd.myblogapp.util.AppConstant;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/posts")
+@Tag(
+        name = " POST CRUD REST API"
+)
 public class PostController {
     private PostService postService;
 
@@ -22,6 +29,17 @@ public class PostController {
         this.postService = postService;
     }
 
+    @Operation(
+            summary = "This Endpoint is for Create Post" ,
+            description = "It will create a new Post"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http status 201 CREATED"
+    )
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
   @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO) {

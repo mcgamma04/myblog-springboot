@@ -1,9 +1,6 @@
 package com.stringcodeltd.myblogapp.service.impl;
 
-import com.stringcodeltd.myblogapp.dto.LoginDTO;
-import com.stringcodeltd.myblogapp.dto.PasswordSettingDTO;
-import com.stringcodeltd.myblogapp.dto.RegisterDTO;
-import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
+import com.stringcodeltd.myblogapp.dto.*;
 import com.stringcodeltd.myblogapp.exception.BlogApiException;
 import com.stringcodeltd.myblogapp.model.Role;
 import com.stringcodeltd.myblogapp.model.User;
@@ -12,6 +9,7 @@ import com.stringcodeltd.myblogapp.repository.UserRepository;
 import com.stringcodeltd.myblogapp.security.JwtTokenProvider;
 import com.stringcodeltd.myblogapp.service.AuthService;
 import com.stringcodeltd.myblogapp.util.PasswordGeneration;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,14 +30,16 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
+    private ModelMapper mapper;
 //    private PasswordGeneration passwordGeneration;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, RoleRepository roleRepository,
+    public AuthServiceImpl(AuthenticationManager authenticationManager, ModelMapper mapper,RoleRepository roleRepository,
                            UserRepository userRepository,JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.jwtTokenProvider=jwtTokenProvider;
+        this.mapper = mapper;
 
     }
 
@@ -116,6 +116,16 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(loggedUser);
 
         return "Password changed successfully";
+    }
+
+    @Override
+    public UserDetailsDTO profile() {
+        User loggedUser = getLoggedUser();
+        loggedUser.getName();
+        loggedUser.getEmail();
+
+
+        return mapper.map(loggedUser, UserDetailsDTO.class);
     }
 
     private User getLoggedUser(){

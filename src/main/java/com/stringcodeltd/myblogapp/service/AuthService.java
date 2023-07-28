@@ -1,9 +1,6 @@
 package com.stringcodeltd.myblogapp.service;
 
-import com.stringcodeltd.myblogapp.dto.LoginDTO;
-import com.stringcodeltd.myblogapp.dto.PasswordSettingDTO;
-import com.stringcodeltd.myblogapp.dto.RegisterDTO;
-import com.stringcodeltd.myblogapp.dto.UpdateProfileDTO;
+import com.stringcodeltd.myblogapp.dto.*;
 
 public interface AuthService {
     String login(LoginDTO loginDTO);
@@ -12,6 +9,10 @@ public interface AuthService {
     String updateUserName(UpdateProfileDTO updateProfileDTO);
 
     String passwordSetting(PasswordSettingDTO passwordSettingDTO);
+
+    UserDetailsDTO profile();
+
+//    TODO forget password
 
 
 }

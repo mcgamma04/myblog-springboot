@@ -26,6 +26,7 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponseDTO);
     }
 
+
     @PostMapping(value = {"/register","/signup"})
     public ResponseEntity<String> registerUser(@RequestBody RegisterDTO registerDTO){
         String register = authService.register(registerDTO);
@@ -48,4 +49,10 @@ public class AuthController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    @GetMapping("/profile")
+    public  ResponseEntity<UserDetailsDTO> profile(){
+        UserDetailsDTO profileR = authService.profile();
+        return  new ResponseEntity<>(profileR, HttpStatus.OK);
+
+    }
 }

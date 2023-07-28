@@ -2,6 +2,7 @@ package com.stringcodeltd.myblogapp.controller;
 
 import com.stringcodeltd.myblogapp.dto.CategoryDTO;
 import com.stringcodeltd.myblogapp.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/category")
+@Tag(
+        name = " Category CRUD REST API"
+)
 public class CategoryController {
 private CategoryService categoryService;
 
