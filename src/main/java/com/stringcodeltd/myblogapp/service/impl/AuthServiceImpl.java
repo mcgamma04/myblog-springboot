@@ -121,9 +121,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDetailsDTO profile() {
         User loggedUser = getLoggedUser();
-        loggedUser.getName();
-        loggedUser.getEmail();
-
+//        loggedUser.getName();
+//        loggedUser.getEmail();
 
         return mapper.map(loggedUser, UserDetailsDTO.class);
     }
